@@ -16,6 +16,7 @@ lego-pieces = "lego_pieces:main"
 crawl-brickmecha = "lego_pieces.brickmecha:main"
 plan-round = "lego_pieces.rounds:main"
 fetch-rebrickable = "lego_pieces.rebrickable:main"
+make-kit = "lego_pieces.stock_kit:main"
 build-order = "lego_pieces.order:main"
 
 [build-system]
