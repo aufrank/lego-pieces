@@ -8,6 +8,7 @@ authors = [
 requires-python = ">=3.13"
 dependencies = [
     "gallery-dl>=1.32.14",
+    "scipy>=1.18.1",
 ]
 
 [project.scripts]
