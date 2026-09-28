@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Brick Round Planner</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧱</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <h1>Brick Round Planner</h1>
+    <p class="sub">Pick builds, swap colors, get one BrickLink order.</p>
+  </div>
+  <div class="top-actions" id="topActions" hidden>
+    <span class="data-note" id="dataNote"></span>
+    <button type="button" id="shareBtn">Copy link to this plan</button>
+    <button type="button" id="resetBtn" class="ghost">Start over</button>
+    <button type="button" id="lockBtn" class="ghost">Lock</button>
+  </div>
+</header>
+
+<section id="gate" class="gate">
+  <form id="gateForm" class="gate-card">
+    <h2>Unlock the build data</h2>
+    <p>The parts lists come from paid instructions, so they're encrypted. Enter the passphrase to load them.</p>
+    <label for="pass" class="visually-hidden">Passphrase</label>
+    <input id="pass" type="password" autocomplete="current-password" placeholder="Passphrase" required>
+    <label class="check"><input type="checkbox" id="remember" checked> Remember on this device</label>
+    <button type="submit" id="unlockBtn">Unlock</button>
+    <p id="gateMsg" class="msg" role="alert"></p>
+  </form>
+</section>
+
+<main id="app" hidden>
+  <section class="panel picker" aria-labelledby="pickerTitle">
+    <div class="panel-head">
+      <h2 id="pickerTitle">Builds</h2>
+      <div class="tabs" role="tablist" id="sourceTabs">
+        <button type="button" role="tab" data-src="all">All</button>
+        <button type="button" role="tab" data-src="SS">Student Scissors</button>
+        <button type="button" role="tab" data-src="BM">BrickMecha</button>
+      </div>
+      <input type="search" id="search" placeholder="Search builds" aria-label="Search builds">
+      <div class="sortrow">
+        <label for="sort">Sort</label>
+        <select id="sort">
+          <option value="title">Name</option>
+          <option value="pieces">Most pieces</option>
+          <option value="fewest">Fewest pieces</option>
+          <option value="newest">Newest (Student Scissors)</option>
+        </select>
+        <span id="pickerCount" class="muted"></span>
+      </div>
+    </div>
+    <ul id="buildList" class="build-list"></ul>
+  </section>
+
+  <section class="panel plan" aria-labelledby="planTitle">
+    <div class="panel-head"><h2 id="planTitle">Plan</h2></div>
+    <div class="scroll">
+      <div id="selected"></div>
+
+      <details class="block" id="globalBlock" open>
+        <summary><h3>Color swaps for all builds</h3></summary>
+        <p class="hint">Applied to every build, including speculative ones. A build's own swaps win.</p>
+        <div id="globalSwaps"></div>
+        <button type="button" id="addSwap" class="small">Add a swap</button>
+      </details>
+
+      <details class="block" open>
+        <summary><h3>Speculative builds</h3></summary>
+        <p class="hint">Extra stock for builds you haven't picked yet, sized from random picks.</p>
+        <div class="spec-grid">
+          <label>Student Scissors <input type="number" id="specSS" min="0" max="20" step="1"></label>
+          <label>BrickMecha <input type="number" id="specBM" min="0" max="40" step="1"></label>
+        </div>
+        <label class="slider">Cover <output id="covOut"></output> of random picks
+          <input type="range" id="cov" min="0.5" max="0.95" step="0.05">
+        </label>
+      </details>
+
+      <details class="block">
+        <summary><h3>Options</h3></summary>
+        <fieldset>
+          <legend>Joint pieces (bars, clips, handles, claws, pins)</legend>
+          <label class="check"><input type="radio" name="joint" value="cheapest"> Any color: buy each in its most common color</label>
+          <label class="check"><input type="radio" name="joint" value="swap"> Follow the color swaps like other pieces</label>
+        </fieldset>
+        <label class="check"><input type="checkbox" id="fallback"> When a part isn't made in the new color, keep its designed color</label>
+        <label class="inline">BrickLink condition
+          <select id="cond"><option value="X">New or used</option><option value="N">New</option><option value="U">Used</option></select>
+        </label>
+      </details>
+    </div>
+  </section>
+
+  <section class="panel order" aria-labelledby="orderTitle">
+    <div class="panel-head">
+      <h2 id="orderTitle">Order</h2>
+      <div id="summary" class="summary"></div>
+      <div id="colorBar" class="color-bar" aria-hidden="true"></div>
+      <div class="export">
+        <button type="button" id="copyXml">Copy BrickLink XML</button>
+        <button type="button" id="dlXml" class="ghost">Download XML</button>
+        <button type="button" id="dlCsv" class="ghost">Download CSV</button>
+      </div>
+      <p class="hint">To price it on BrickLink: open
+        <a href="https://www.bricklink.com/v2/wanted/upload.page" target="_blank" rel="noopener">Want › Upload</a>,
+        choose <b>Upload BrickLink XML format</b>, paste, verify, then use <b>Easy Buy</b> on the list.</p>
+    </div>
+    <div class="scroll">
+      <div id="warnings"></div>
+      <div id="orderTable"></div>
+    </div>
+  </section>
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="app.js"></script>
+</body>
+</html>
