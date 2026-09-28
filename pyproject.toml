@@ -14,6 +14,7 @@ dependencies = [
 lego-pieces = "lego_pieces:main"
 crawl-brickmecha = "lego_pieces.brickmecha:main"
 fetch-rebrickable = "lego_pieces.rebrickable:main"
+build-order = "lego_pieces.order:main"
 
 [build-system]
 requires = ["uv_build>=0.12.19,<0.13.0"]
