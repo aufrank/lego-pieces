@@ -1,0 +1,4 @@
+.venv/
+__pycache__/
+# Paid Patreon content — never commit or push
+data/
