@@ -2,3 +2,6 @@
 __pycache__/
 # Paid Patreon content — never commit or push
 data/
+
+# Local tool config (e.g. the site preview server)
+.claude/

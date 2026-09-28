@@ -6,6 +6,8 @@ Which LEGO pieces do [Student Scissors](https://www.patreon.com/StSc) (Patreon) 
 `data/` holds downloaded instructions and crawled pages. It's gitignored: the Patreon
 files are paid content.
 
+There's also a website for planning an order in the browser: see [Website](#website).
+
 ## Refresh the data
 
 ```bash
@@ -113,3 +115,25 @@ printed parts are left out; buy them with each round. Writes `stock_kit.csv` and
 Because every round's purchases stay in your collection, a bigger kit mostly moves buying up
 front: over four simulated rounds, the 75%/90% kit (~1,850 pieces) ends up about 14% more
 pieces bought than buying round by round, versus about 75% more for a 90%/99% kit (~4,000).
+
+## Website
+
+`docs/` is a static site (GitHub Pages) for planning an order without the command line: pick
+Student Scissors and BrickMecha builds, add speculative builds you haven't picked yet, swap
+colors per build or for all builds, and copy or download a BrickLink wanted list.
+
+The parts lists include paid Patreon content, so the site's data is encrypted. `export-site`
+writes `docs/data.enc.json`, AES-GCM encrypted with a key derived from the passphrase in
+`data/site-passphrase.txt` (gitignored; a random one is created on first run, and you can
+replace it with your own). The page asks for the passphrase once per device.
+
+```bash
+uv run export-site                                     # after refreshing data, re-export
+python3 -m http.server 8765 --directory docs           # try it at http://localhost:8765
+```
+
+Color swaps follow the same rules as `--recolor`: solids only swap with solids, transparents
+with transparents, joint pieces can be any color (bought in their most common color by
+default), and special finishes, tires and printed parts stay as designed. When a part isn't
+made in the new color, it keeps its designed color, and the page lists those pieces. Speculative
+stock is each piece's chosen percentile over 300 random picks of that many builds.
