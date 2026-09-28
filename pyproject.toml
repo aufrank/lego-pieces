@@ -11,6 +11,7 @@ dependencies = [
 ]
 
 [project.scripts]
+lego-pieces = "lego_pieces:main"
 crawl-brickmecha = "lego_pieces.brickmecha:main"
 fetch-rebrickable = "lego_pieces.rebrickable:main"
 
